@@ -19,6 +19,8 @@ match operation:
         else:
             result = num1 / num2
             print(f"The result is: {result:.2f}")
+    case _:
+        print("Invalid operation. Please choose from +, -, *, /.")
 
 
 
