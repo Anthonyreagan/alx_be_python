@@ -1,49 +1,71 @@
-# Global conversion factors
+# temp_conversion_tool.py
+
+# 1. Define Global Conversion Factors
+# Factors for converting Fahrenheit to Celsius: (F - 32) * (5/9)
 FAHRENHEIT_TO_CELSIUS_FACTOR = 5 / 9
+
+# Factors for converting Celsius to Fahrenheit: (C * 9/5) + 32
 CELSIUS_TO_FAHRENHEIT_FACTOR = 9 / 5
 
 def convert_to_celsius(fahrenheit):
-    """Convert Fahrenheit temperature to Celsius"""
+    """
+    Converts a temperature from Fahrenheit to Celsius using a global factor.
+
+    Args:
+        fahrenheit (float): The temperature in Fahrenheit.
+
+    Returns:
+        float: The temperature converted to Celsius.
+    """
+    # Accessing the global FAHRENHEIT_TO_CELSIUS_FACTOR for conversion
     celsius = (fahrenheit - 32) * FAHRENHEIT_TO_CELSIUS_FACTOR
     return celsius
 
 def convert_to_fahrenheit(celsius):
-    """Convert Celsius temperature to Fahrenheit"""
-    fahrenheit = celsius * CELSIUS_TO_FAHRENHEIT_FACTOR + 32
+    """
+    Converts a temperature from Celsius to Fahrenheit using a global factor.
+
+    Args:
+        celsius (float): The temperature in Celsius.
+
+    Returns:
+        float: The temperature converted to Fahrenheit.
+    """
+    # Accessing the global CELSIUS_TO_FAHRENHEIT_FACTOR for conversion
+    fahrenheit = (celsius * CELSIUS_TO_FAHRENHEIT_FACTOR) + 32
     return fahrenheit
 
 def main():
-    print("Temperature Conversion Tool")
-    print("--------------------------")
-    
+    """
+    Main function to handle user interaction for temperature conversion.
+    Prompts for temperature and unit, performs conversion, and displays result.
+    Handles non-numeric input by raising a ValueError.
+    """
+    # Prompt for temperature and handle non-numeric input by raising an error
     try:
-        # Get temperature input from user
-        temp_input = input("Enter temperature (e.g., 32C or 89F): ").strip().upper()
-        
-        if not temp_input:
-            raise ValueError("Empty input. Please enter a temperature.")
-        
-        # Extract numerical value and unit
-        try:
-            temp_value = float(temp_input[:-1])
-            temp_unit = temp_input[-1]
-        except (ValueError, IndexError):
-            raise ValueError("Invalid temperature format. Please use format like 32C or 89F.")
-        
-        # Perform conversion based on unit
-        if temp_unit == 'C':
-            converted_temp = convert_to_fahrenheit(temp_value)
-            print(f"{temp_value}°C is {converted_temp:.2f}°F")
-        elif temp_unit == 'F':
-            converted_temp = convert_to_celsius(temp_value)
-            print(f"{temp_value}°F is {converted_temp:.2f}°C")
-        else:
-            raise ValueError("Invalid unit. Please use C for Celsius or F for Fahrenheit.")
-            
-    except ValueError as e:
-        print(f"Error: {e}")
-    except Exception as e:
-        print(f"An unexpected error occurred: {e}")
+        temp_input_str = input("Enter the temperature to convert: ").strip()
+        # Attempt to convert to float. If it fails, ValueError is raised by float()
+        temperature = float(temp_input_str)
+    except ValueError:
+        # Catch the ValueError from float() and re-raise with the specific message
+        raise ValueError("Invalid temperature. Please enter a numeric value.")
 
+    # Prompt for unit and ensure valid input (C/F)
+    while True:
+        unit = input("Is this temperature in Celsius or Fahrenheit? (C/F): ").strip().upper()
+        if unit in ['C', 'F']:
+            break # Valid unit, exit loop
+        else:
+            print("Invalid unit. Please enter 'C' for Celsius or 'F' for Fahrenheit.")
+
+    # Perform the conversion based on the chosen unit and display the result
+    if unit == 'F':
+        converted_temp = convert_to_celsius(temperature)
+        print(f"{temperature}°F is {converted_temp}°C")
+    elif unit == 'C':
+        converted_temp = convert_to_fahrenheit(temperature)
+        print(f"{temperature}°C is {converted_temp}°F")
+
+# Ensure main() is called when the script is executed directly
 if __name__ == "__main__":
     main()
