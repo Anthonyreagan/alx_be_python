@@ -15,8 +15,12 @@ def main():
     my_library.add_book(classic_book)
     my_library.add_book(digital_novel)
     my_library.add_book(paper_novel)
+    my_library.add_book(paper_noveLOTI)
+
+    
 
     # List all books in the library
+    print("Books in the library:")
     my_library.list_books()
 
 if __name__ == "__main__":
